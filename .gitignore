@@ -1,0 +1,46 @@
+
+# =====================
+# Go build artifacts
+# =====================
+/bin/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# =====================
+# Go workspace files
+# =====================
+go.work
+go.work.sum
+
+# =====================
+# IDE / Editor files
+# =====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =====================
+# OS files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Logs & runtime data
+# =====================
+logs/
+*.log
+
+# =====================
+# Temporary / debug
+# =====================
+tmp/
+debug/
