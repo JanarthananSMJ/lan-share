@@ -8,8 +8,8 @@ import (
 
 func main() {
 
-	server := tcp.BuildServer("0.0.0.0:9000")
-	if err := server.StartServer(); err != nil {
+	server := tcp.NewServer("0.0.0.0:9000")
+	if err := server.Start(); err != nil {
 		log.Fatal(err)
 	}
 }

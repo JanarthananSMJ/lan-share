@@ -1,6 +1,7 @@
 package tcp
 
 import (
+	"bufio"
 	"fmt"
 	"net"
 )
@@ -9,28 +10,38 @@ type Server struct {
 	Address string
 }
 
-func BuildServer(address string) *Server {
-	return &Server{Address: address}
+func NewServer(addr string) *Server {
+	return &Server{Address: addr}
 }
 
-func (s *Server) StartServer() error {
-	listener, err := net.Listen("tcp", s.Address)
+func (s *Server) Start() error {
+	ln, err := net.Listen("tcp", s.Address)
 	if err != nil {
 		return err
 	}
-	defer listener.Close()
-	fmt.Println("Server is Listening on : ", s.Address)
+	defer ln.Close()
+
+	fmt.Println("Server listening on", s.Address)
+
 	for {
-		conn, err := listener.Accept()
+		conn, err := ln.Accept()
 		if err != nil {
-			return err
+			continue
 		}
-		go s.handleConnection(conn)
+		go s.handle(conn)
 	}
 }
 
-func (s *Server) handleConnection(conn net.Conn) {
+func (s *Server) handle(conn net.Conn) {
 	defer conn.Close()
 
-	conn.Write([]byte("Connection Established"))
+	reader := bufio.NewReader(conn)
+
+	for {
+		msg, err := reader.ReadString('\n')
+		if err != nil {
+			return
+		}
+		conn.Write([]byte(msg))
+	}
 }
